@@ -60,9 +60,10 @@
         
         body.light-mode .bg-black\/25, 
         body.light-mode .bg-black\/30, 
+        body.light-mode .bg-black\/40, 
         body.light-mode .bg-black\/50, 
         body.light-mode .bg-black\/80 { 
-            background-color: rgba(255, 255, 255, 0.7) !important; 
+            background-color: rgba(255, 255, 255, 0.85) !important; 
         }
         body.light-mode .bg-\[\#0a0c10\], 
         body.light-mode .bg-\[\#111827\] { 
@@ -99,7 +100,7 @@
         }
         
         body.light-mode #user-provided-logo { 
-            filter: brightness(0) !important; /* 将白色的 Logo 变为纯黑色以适配日间模式 */
+            filter: brightness(0) !important;
         }
         
         body.light-mode .marker-tag { 
@@ -118,9 +119,42 @@
         body.light-mode .matrix-title { color: #0f172a !important; }
         body.light-mode .matrix-desc { color: #475569 !important; }
         
-        body.light-mode h2[style*="text-shadow"] { 
-            text-shadow: 0 0 20px rgba(255,255,255,0.9), 0 0 10px rgba(212,175,55,0.6) !important; 
-            color: #0f172a !important; 
+        /* 修复各种大标题字色 (适配日间模式) */
+        body.light-mode .gold-gradient-text {
+            background: linear-gradient(135deg, #926a09, #b98b13) !important;
+            -webkit-background-clip: text !important;
+            -webkit-text-fill-color: transparent !important;
+            text-shadow: none !important;
+        }
+
+        body.light-mode .globe-floating-title {
+            color: #1e293b !important;
+            text-shadow: 0 2px 4px rgba(255,255,255,0.9), 0 0 10px rgba(255,255,255,0.8) !important;
+        }
+
+        body.light-mode .module-title span { color: #1e293b !important; }
+        
+        /* 修复 Tap 标签颜色 */
+        body.light-mode .module-tag {
+            color: #475569 !important;
+            border-color: rgba(0,0,0,0.15) !important;
+            background: rgba(0,0,0,0.05) !important;
+        }
+        body.light-mode .module-tab.is-active {
+            color: #fff !important;
+            background: linear-gradient(90deg, #b98b13 0%, #d4af37 45%, #b98b13 100%) !important;
+            border-color: rgba(212, 175, 55, 0.6) !important;
+        }
+
+        body.light-mode .section-chip {
+            color: #475569 !important;
+            background: rgba(0,0,0,0.06) !important;
+            border-color: rgba(0,0,0,0.12) !important;
+        }
+        body.light-mode .section-chip[style*="var(--text-gold)"] {
+            color: #926a09 !important;
+            border-color: rgba(212, 175, 55, 0.6) !important;
+            background: rgba(212, 175, 55, 0.1) !important;
         }
         
         body.light-mode .absolute.inset-0.z-0[style*="radial-gradient"] { 
@@ -130,6 +164,10 @@
         body.light-mode .border-white\/10,
         body.light-mode .border-white\/5 {
             border-color: rgba(0,0,0,0.08) !important;
+        }
+
+        body.light-mode .border-\[rgba\\(212\\,175\\,55\\,0\\.15\\)\] {
+            border-color: rgba(212, 175, 55, 0.4) !important;
         }
 
         body.light-mode .bg-white\/5 {
@@ -153,6 +191,12 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             text-shadow: 0 4px 20px rgba(212, 175, 55, 0.18);
+        }
+
+        /* 原有悬浮大标题字色控制 (夜间模式) */
+        .globe-floating-title {
+            color: rgba(255,255,255,0.95);
+            text-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 10px rgba(212,175,55,0.55);
         }
 
         .panel-card {
@@ -210,44 +254,6 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0); }
         }
 
-        .marquee-wrap {
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(0, 0, 0, 0.22);
-        }
-
-        .marquee-track {
-            display: flex;
-            width: max-content;
-            gap: 28px;
-            padding: 10px 14px;
-            animation: marqueeMove 26s linear infinite;
-        }
-
-        .marquee-wrap:hover .marquee-track {
-            animation-play-state: paused;
-        }
-
-        @keyframes marqueeMove {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        .marquee-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.82);
-        }
-
-        .marquee-item strong {
-            color: #fff;
-        }
-
         .bg-up { background-color: rgba(255, 77, 79, 0.1); border-left: 4px solid var(--primary-red); }
         .bg-down { background-color: rgba(82, 196, 26, 0.1); border-left: 4px solid var(--primary-green); }
         .bg-mixed { background-color: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; }
@@ -262,11 +268,7 @@
             width: 100%;
             height: 100%;
             cursor: grab;
-        }
-        
-        #earth-mount canvas {
-            touch-action: pan-y !important;
-            outline: none;
+            touch-action: none;
         }
 
         #earth-mount:active {
@@ -286,18 +288,18 @@
             transition: opacity 0.35s ease, transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             opacity: 1;
+            min-width: 140px;
+            max-width: 280px;
         }
 
         .globe-continent-marker {
-            min-width: 100px;
-            padding: 8px 12px;
+            min-width: 138px;
+            padding: 12px 18px;
             text-align: center;
         }
 
         .globe-country-marker {
-            min-width: 140px;
-            max-width: 180px;
-            padding: 8px 10px;
+            min-width: 220px;
         }
 
         .globe-marker-card:hover {
@@ -305,7 +307,7 @@
             transform: translate(50%, -50%) scale(1.06);
             border-color: rgba(212, 175, 55, 0.92);
             box-shadow: 0 0 26px rgba(212, 175, 55, 0.24);
-            z-index: 999;
+            z-index: 100;
         }
 
         .is-drag-navigating .globe-marker-card {
@@ -317,9 +319,9 @@
         .marker-tag {
             display: inline-flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
             border-radius: 9999px;
-            padding: 3px 6px;
+            padding: 5px 9px;
             font-size: 10px;
             line-height: 1;
             background: rgba(255, 255, 255, 0.06);
@@ -644,32 +646,13 @@
                 line-height: 1.08;
             }
 
-            .help-panel {
-                padding: 0.7rem 0.8rem;
-            }
-
             .section-chip {
                 font-size: 10px;
                 padding: 5px 8px;
             }
 
-            .absolute.top-4.left-1\/2 {
-                top: 0.95rem;
-                padding-left: 0.75rem;
-                padding-right: 0.75rem;
-            }
-
-            .absolute.top-4.left-1\/2 h2 {
-                font-size: 0.95rem;
-                letter-spacing: 0.12em;
-            }
-
             .absolute.bottom-4.left-1\/2 {
                 bottom: 0.85rem;
-            }
-
-            .panel-card {
-                border-radius: 22px;
             }
 
             #part2-details {
@@ -678,15 +661,6 @@
                 padding-top: 1rem;
                 padding-bottom: 8.5rem;
                 gap: 1rem;
-            }
-
-            #part2-details > section {
-                padding: 1rem;
-            }
-
-            .module-title {
-                font-size: 1rem;
-                line-height: 1.25;
             }
 
             .module-tag {
@@ -753,6 +727,21 @@
             .footer-immersive .text-sm {
                 font-size: 0.8rem;
             }
+
+            .globe-marker-card {
+                min-width: 118px;
+                max-width: 220px;
+                padding: 8px 10px;
+            }
+
+            .globe-continent-marker {
+                min-width: 118px;
+                padding: 10px 14px;
+            }
+
+            .globe-country-marker {
+                min-width: 176px;
+            }
         }
     </style>
 </head>
@@ -774,35 +763,33 @@
                 跟踪 ENSO 状态变化，观察全球产区、天气扰动与商品历史传导路径。
             </p>
 
-            <div class="mt-4 help-panel rounded-3xl px-4 py-4 w-[92%] max-w-[780px] pointer-events-auto shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
-                <div class="flex flex-col gap-3">
-                    <div class="flex items-center justify-between gap-3">
+            <div class="mt-6 w-[92%] max-w-[780px] pointer-events-auto flex flex-col gap-3 z-20">
+                <div class="flex items-center justify-between px-1">
+                    <div class="flex items-center gap-3">
                         <div class="live-chip">
                             <span class="live-dot"></span>
                             实时监控
                         </div>
-                        <div class="text-[16px] sm:text-[18px] font-black text-white hidden sm:block mr-auto ml-2 tracking-widest drop-shadow-sm">最新产业快讯</div>
-                        <div class="text-[12px] sm:text-[13px] text-gray-200 font-bold cursor-pointer flex items-center gap-1 hover:text-[var(--text-gold)] transition-colors border border-white/10 rounded-full px-3 py-1.5 bg-white/5" onclick="openNewsModal()">
-                            查看全部 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
-                        </div>
+                        <div class="text-[16px] sm:text-[18px] font-black text-white tracking-widest drop-shadow-sm">最新产业快讯</div>
                     </div>
-                    
-                    <div class="text-[16px] font-black text-white sm:hidden tracking-widest drop-shadow-sm px-1">最新产业快讯</div>
-                    
-                    <div class="relative h-[76px] overflow-hidden rounded-xl bg-black/30 px-3 w-full border border-[rgba(212,175,55,0.15)] shadow-inner">
-                        <div id="vertical-ticker" class="absolute w-full left-0 px-3 transition-transform duration-500 ease-in-out">
-                            <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
-                                <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">气象监测</strong>NOAA 最新月报：ENSO 中性仍为基线，5-7月回归厄尔尼诺概率抬升</div>
-                            </div>
-                            <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
-                                <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">产地跟踪</strong>印度部分主产区出现异常高温，甘蔗与棉花生长窗口面临重新评估</div>
-                            </div>
-                            <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
-                                <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">市场异动</strong>巴西中南部降雨偏强，大豆收获与物流发运节奏继续承压</div>
-                            </div>
-                            <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
-                                <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">产量快报</strong>马来西亚气象局更新干旱预警，棕榈油主产区水分条件仍需继续跟踪</div>
-                            </div>
+                    <div class="text-[12px] sm:text-[13px] text-gray-200 font-bold cursor-pointer flex items-center gap-1 hover:text-[var(--text-gold)] transition-colors border border-white/10 rounded-full px-3 py-1.5 bg-white/5" onclick="openNewsModal()">
+                        查看全部 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                    </div>
+                </div>
+                
+                <div class="relative h-[76px] overflow-hidden rounded-2xl bg-black/40 backdrop-blur-md px-3 w-full border border-[rgba(212,175,55,0.25)] shadow-lg">
+                    <div id="vertical-ticker" class="absolute w-full left-0 px-3 transition-transform duration-500 ease-in-out">
+                        <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
+                            <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">气象监测</strong>NOAA 最新月报：ENSO 中性仍为基线，5-7月回归厄尔尼诺概率抬升</div>
+                        </div>
+                        <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
+                            <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">产地跟踪</strong>印度部分主产区出现异常高温，甘蔗与棉花生长窗口面临重新评估</div>
+                        </div>
+                        <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
+                            <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">市场异动</strong>巴西中南部降雨偏强，大豆收获与物流发运节奏继续承压</div>
+                        </div>
+                        <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
+                            <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">产量快报</strong>马来西亚气象局更新干旱预警，棕榈油主产区水分条件仍需继续跟踪</div>
                         </div>
                     </div>
                 </div>
@@ -817,8 +804,8 @@
                 <span class="text-sm sm:text-base">加载沉浸式地球...</span>
             </div>
 
-            <div class="absolute top-4 left-1/2 -translate-x-1/2 z-30 pointer-events-none text-center w-full px-4">
-                <h2 class="text-xl sm:text-2xl font-black tracking-[0.2em] relative z-20" style="color: rgba(255,255,255,0.95); text-shadow: 0 0 20px rgba(0,0,0,0.8), 0 0 10px rgba(212,175,55,0.55);">
+            <div class="absolute top-16 sm:top-6 left-1/2 -translate-x-1/2 z-20 pointer-events-none text-center w-full px-4">
+                <h2 class="text-[17px] sm:text-2xl font-black tracking-[0.2em] relative globe-floating-title">
                     厄尔尼诺现象对各地区的影响
                 </h2>
             </div>
@@ -830,7 +817,6 @@
                     <span class="section-chip">ENSO 中性</span>
                     <span class="section-chip">关注窗口：2026年5-7月</span>
                     <span class="section-chip" style="border-color: var(--text-gold); color: var(--text-gold);">滑动地球以旋转查看</span>
-                    <span class="section-chip">点击卡片看详情</span>
                 </div>
             </div>
 
@@ -843,15 +829,16 @@
     </section>
 
     <div id="part2-details" class="max-w-[900px] mx-auto px-4 py-8 pb-36 flex flex-col gap-8">
-        <section class="panel-card rounded-3xl p-5 sm:p-6 border border-white/10">
-            <div class="module-head flex-col !items-start gap-4 mb-5">
-                <div class="module-head-left w-full">
-                    <div class="module-title gold-gradient-text flex items-start sm:items-center gap-2">
-                        <i data-lucide="thermometer" class="w-5 h-5 shrink-0 mt-1 sm:mt-0"></i>
-                        <span class="whitespace-normal leading-snug">厄尔尼诺现象对各地区的影响</span>
+        <section class="w-full flex flex-col gap-4">
+            
+            <div class="flex flex-col gap-4 mb-2 px-1">
+                <div class="w-full">
+                    <div class="gold-gradient-text flex items-start sm:items-center gap-2">
+                        <i data-lucide="thermometer" class="w-5 h-5 shrink-0 mt-0.5 sm:mt-0 text-[var(--text-gold)]"></i>
+                        <span class="whitespace-normal leading-snug font-black text-[18px] sm:text-xl">厄尔尼诺现象对各地区的影响</span>
                     </div>
                 </div>
-                <div class="module-head-tabs flex flex-wrap justify-start gap-2 w-full">
+                <div class="flex flex-wrap justify-start gap-2 w-full">
                     <button type="button" data-core-tab="sensitivity" onclick="switchCoreImpactTab('sensitivity')" class="module-tag module-tab is-active">敏感度</button>
                     <button type="button" data-core-tab="strength" onclick="switchCoreImpactTab('strength')" class="module-tag module-tab">历年强度</button>
                     <button type="button" data-core-tab="impact" onclick="switchCoreImpactTab('impact')" class="module-tag module-tab">历史影响</button>
@@ -859,7 +846,7 @@
             </div>
 
             <div class="flex flex-col gap-4">
-                <div class="module-panel is-active rounded-2xl border border-white/10 bg-black/25 p-4 sm:p-5" data-panel="sensitivity">
+                <div class="module-panel is-active rounded-2xl border border-[rgba(212,175,55,0.15)] bg-black/40 backdrop-blur-md p-4 sm:p-5 shadow-lg" data-panel="sensitivity">
                     
                     <div class="flex items-center gap-2 mb-4 px-1">
                         <span class="text-[13px] sm:text-sm font-bold text-[var(--text-gold)] tracking-wide">⭐️ 各品种受影响程度</span>
@@ -925,7 +912,7 @@
                     </div>
                 </div>
 
-                <div class="module-panel rounded-2xl border border-white/10 bg-black/25 p-4 sm:p-5" data-panel="strength">
+                <div class="module-panel rounded-2xl border border-[rgba(212,175,55,0.15)] bg-black/40 backdrop-blur-md p-4 sm:p-5 shadow-lg" data-panel="strength">
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <span class="text-[11px] text-gray-400">厄尔尼诺历年强度和影响有多大？</span>
                     </div>
@@ -934,7 +921,7 @@
                     </div>
                 </div>
 
-                <div class="module-panel rounded-2xl border border-white/10 bg-black/25 p-4 sm:p-5" data-panel="impact">
+                <div class="module-panel rounded-2xl border border-[rgba(212,175,55,0.15)] bg-black/40 backdrop-blur-md p-4 sm:p-5 shadow-lg" data-panel="impact">
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <span class="text-[11px] text-gray-400">历史上厄尔尼诺现象对农作物影响如何？</span>
                     </div>
