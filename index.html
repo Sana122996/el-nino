@@ -40,11 +40,108 @@
             overscroll-behavior: none;
             -webkit-tap-highlight-color: transparent;
             scroll-behavior: smooth;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
         body {
             min-height: 100dvh;
         }
+
+        /* --- 日间模式 (Light Mode) 样式覆盖 --- */
+        body.light-mode {
+            background: linear-gradient(180deg, #f8fafc 0%, #e2e8f0 100%);
+            color: #1e293b;
+        }
+        body.light-mode .text-white { color: #1e293b !important; }
+        body.light-mode .text-gray-200 { color: #334155 !important; }
+        body.light-mode .text-gray-300 { color: #475569 !important; }
+        body.light-mode .text-gray-400 { color: #64748b !important; }
+        body.light-mode .text-gray-500 { color: #94a3b8 !important; }
+        
+        body.light-mode .bg-black\/25, 
+        body.light-mode .bg-black\/30, 
+        body.light-mode .bg-black\/50, 
+        body.light-mode .bg-black\/80 { 
+            background-color: rgba(255, 255, 255, 0.7) !important; 
+        }
+        body.light-mode .bg-\[\#0a0c10\], 
+        body.light-mode .bg-\[\#111827\] { 
+            background-color: #f8fafc !important; 
+        }
+        body.light-mode .bg-\[rgba\\(15\\,23\\,42\\,0\\.96\\)\] {
+            background-color: rgba(255, 255, 255, 0.96) !important;
+        }
+        
+        body.light-mode .card-surface, 
+        body.light-mode .matrix-item, 
+        body.light-mode .crop-card, 
+        body.light-mode .news-card {
+            background: rgba(255, 255, 255, 0.9) !important;
+            border-color: rgba(0, 0, 0, 0.08) !important;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.02);
+        }
+        
+        body.light-mode .panel-card, 
+        body.light-mode .help-panel,
+        body.light-mode .immersive-modal-content {
+            background: rgba(255, 255, 255, 0.95) !important;
+            border-color: rgba(212, 175, 55, 0.4) !important;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05) !important;
+        }
+        
+        body.light-mode header { 
+            background: linear-gradient(to bottom, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0) 100%) !important; 
+        }
+        
+        body.light-mode .footer-immersive { 
+            background: rgba(255, 255, 255, 0.94) !important; 
+            border-top: 1px solid rgba(212, 175, 55, 0.3) !important; 
+        }
+        
+        body.light-mode #user-provided-logo { 
+            filter: brightness(0) !important; /* 将白色的 Logo 变为纯黑色以适配日间模式 */
+        }
+        
+        body.light-mode .marker-tag { 
+            background: rgba(0, 0, 0, 0.04) !important; 
+            border-color: rgba(0, 0, 0, 0.08) !important; 
+            color: #333 !important; 
+        }
+        body.light-mode .marker-tag strong { color: #000 !important; }
+        
+        body.light-mode .globe-marker-card { 
+            background: rgba(255, 255, 255, 0.95) !important; 
+            color: #1e293b !important; 
+            border-color: rgba(212, 175, 55, 0.5) !important; 
+        }
+        
+        body.light-mode .matrix-title { color: #0f172a !important; }
+        body.light-mode .matrix-desc { color: #475569 !important; }
+        
+        body.light-mode h2[style*="text-shadow"] { 
+            text-shadow: 0 0 20px rgba(255,255,255,0.9), 0 0 10px rgba(212,175,55,0.6) !important; 
+            color: #0f172a !important; 
+        }
+        
+        body.light-mode .absolute.inset-0.z-0[style*="radial-gradient"] { 
+            background: radial-gradient(circle at center, rgba(241, 245, 249, 0.9) 0%, #e2e8f0 100%) !important; 
+        }
+
+        body.light-mode .border-white\/10,
+        body.light-mode .border-white\/5 {
+            border-color: rgba(0,0,0,0.08) !important;
+        }
+
+        body.light-mode .bg-white\/5 {
+            background-color: rgba(0,0,0,0.03) !important;
+        }
+        
+        body.light-mode #theme-toggle {
+            color: #0f172a !important;
+            border-color: rgba(0,0,0,0.2) !important;
+            background: rgba(0,0,0,0.05) !important;
+        }
+        /* ------------------------------- */
 
         .font-heavy-serif {
             font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
@@ -111,6 +208,44 @@
             0% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0.45); }
             70% { box-shadow: 0 0 0 10px rgba(255, 77, 79, 0); }
             100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0); }
+        }
+
+        .marquee-wrap {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.22);
+        }
+
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            gap: 28px;
+            padding: 10px 14px;
+            animation: marqueeMove 26s linear infinite;
+        }
+
+        .marquee-wrap:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes marqueeMove {
+            from { transform: translateX(0); }
+            to { transform: translateX(-50%); }
+        }
+
+        .marquee-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .marquee-item strong {
+            color: #fff;
         }
 
         .bg-up { background-color: rgba(255, 77, 79, 0.1); border-left: 4px solid var(--primary-red); }
@@ -622,15 +757,20 @@
     </style>
 </head>
 <body class="flex flex-col min-h-[100dvh] relative">
+    
+    <button id="theme-toggle" onclick="toggleTheme()" class="absolute top-4 right-4 z-50 p-2.5 rounded-full bg-white/10 backdrop-blur border border-white/20 text-[var(--text-gold)] hover:bg-white/20 transition-all outline-none shadow-lg">
+        <i id="theme-icon" data-lucide="sun" class="w-5 h-5"></i>
+    </button>
+
     <section id="part1-globe" class="flex flex-col relative w-full h-[100dvh] min-h-[680px] pb-20">
         <header class="shrink-0 flex flex-col items-center justify-center pt-5 pb-4 px-4 z-10 relative pointer-events-none" style="background: linear-gradient(to bottom, rgba(15,23,42,0.96) 0%, rgba(10,12,16,0) 100%);">
             
-            <img src="容器__1_(1).svg" class="h-4 sm:h-5 mb-2 mx-auto pointer-events-auto" style="filter: brightness(0) invert(1);" alt="金十期货 Logo">
+            <img src="容器__1_(1).svg" id="user-provided-logo" class="h-4 sm:h-5 mb-5 mx-auto pointer-events-auto transition-all" style="filter: brightness(0) invert(1);" alt="金十期货 Logo">
 
             <h1 class="text-[28px] sm:text-4xl font-heavy-serif text-center leading-tight gold-gradient-text pointer-events-auto drop-shadow-lg tracking-wider">
                 厄尔尼诺追踪器
             </h1>
-            <p class="mt-2 text-[12px] sm:text-sm text-center text-gray-300 pointer-events-auto max-w-[720px] px-2 leading-relaxed">
+            <p class="mt-5 text-[12px] sm:text-sm text-center text-gray-300 pointer-events-auto max-w-[720px] px-2 leading-relaxed">
                 跟踪 ENSO 状态变化，观察全球产区、天气扰动与商品历史传导路径。
             </p>
 
@@ -1081,6 +1221,26 @@
     </div>
 
     <script>
+        // 日夜间模式切换逻辑
+        let isLightMode = false;
+        window.toggleTheme = function() {
+            isLightMode = !isLightMode;
+            document.body.classList.toggle('light-mode', isLightMode);
+            const icon = document.getElementById('theme-icon');
+            if (isLightMode) {
+                icon.setAttribute('data-lucide', 'moon');
+                if (window.earthGlobe) {
+                    window.earthGlobe.globeImageUrl('https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-day.jpg');
+                }
+            } else {
+                icon.setAttribute('data-lucide', 'sun');
+                if (window.earthGlobe) {
+                    window.earthGlobe.globeImageUrl('https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-blue-marble.jpg');
+                }
+            }
+            lucide.createIcons();
+        };
+
         window.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
 
@@ -1255,6 +1415,8 @@
 
                 renderMarkersView();
                 world.pointOfView({ lat: 20, lng: 100, altitude: 2.2 }, 0);
+                
+                window.earthGlobe = world; // 暴露给全局以便日夜间切换
 
                 setTimeout(() => {
                     if (loadingEl) {
