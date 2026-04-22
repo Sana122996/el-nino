@@ -66,11 +66,14 @@
             background-color: rgba(255, 255, 255, 0.85) !important; 
         }
         body.light-mode .bg-\[\#0a0c10\], 
-        body.light-mode .bg-\[\#111827\] { 
+        body.light-mode .bg-\[\#111827\],
+        body.light-mode .jump-page { 
             background-color: #f8fafc !important; 
         }
-        body.light-mode .bg-\[rgba\\(15\\,23\\,42\\,0\\.96\\)\] {
+        body.light-mode .bg-\[rgba\\(15\\,23\\,42\\,0\\.96\\)\],
+        body.light-mode .jump-page .bg-\[rgba\\(15\\,23\\,42\\,0\\.96\\)\] {
             background-color: rgba(255, 255, 255, 0.96) !important;
+            border-bottom-color: rgba(0,0,0,0.1) !important;
         }
         
         body.light-mode .card-surface, 
@@ -119,7 +122,24 @@
         body.light-mode .matrix-title { color: #0f172a !important; }
         body.light-mode .matrix-desc { color: #475569 !important; }
         
-        /* 修复各种大标题字色 (适配日间模式) */
+        /* 日间模式：修复跳转页中的文字颜色 */
+        body.light-mode .news-title { color: #0f172a !important; }
+        body.light-mode .news-summary { color: #475569 !important; }
+
+        body.light-mode .news-badge { 
+            border-color: rgba(0,0,0,0.15) !important; 
+            background: rgba(0,0,0,0.05) !important; 
+            color: #334155 !important; 
+        }
+        body.light-mode .news-badge.text-red-300 { color: #dc2626 !important; background: rgba(220,38,38,0.1) !important; }
+        body.light-mode .news-badge.text-orange-200 { color: #ea580c !important; background: rgba(234,88,12,0.1) !important; }
+        body.light-mode .news-badge.text-green-200 { color: #16a34a !important; background: rgba(22,163,74,0.1) !important; }
+        body.light-mode .news-badge.text-rose-300 { color: #e11d48 !important; background: rgba(225,29,72,0.1) !important; }
+        body.light-mode .news-badge.text-sky-200 { color: #0284c7 !important; background: rgba(2,132,199,0.1) !important; }
+        body.light-mode .news-badge.text-indigo-200 { color: #4f46e5 !important; background: rgba(79,70,229,0.1) !important; }
+        body.light-mode .news-badge.text-amber-200 { color: #d97706 !important; background: rgba(217,119,6,0.1) !important; }
+
+        /* 修复各种大标题字色和投影 (适配日间模式) */
         body.light-mode .gold-gradient-text {
             background: linear-gradient(135deg, #926a09, #b98b13) !important;
             -webkit-background-clip: text !important;
@@ -127,14 +147,16 @@
             text-shadow: none !important;
         }
 
-        body.light-mode h1.gold-gradient-text {
+        body.light-mode h1.gold-gradient-text,
+        body.light-mode .drop-shadow-lg,
+        body.light-mode .drop-shadow-sm {
             filter: none !important;
             text-shadow: none !important;
         }
 
         body.light-mode .globe-floating-title {
             color: #1e293b !important;
-            text-shadow: 0 2px 4px rgba(255,255,255,0.9), 0 0 10px rgba(255,255,255,0.8) !important;
+            text-shadow: none !important;
         }
 
         body.light-mode .module-title span { color: #1e293b !important; }
@@ -689,12 +711,12 @@
         @media (max-width: 430px) {
             #part1-globe {
                 min-height: 100dvh;
-                padding-bottom: 1.5rem;
+                padding-bottom: 3.5rem;
             }
 
             #part1-globe > header {
-                padding-top: 1rem;
-                padding-bottom: 0.5rem;
+                padding-top: 0.95rem;
+                padding-bottom: 0.35rem;
                 padding-left: 0.75rem;
                 padding-right: 0.75rem;
             }
@@ -716,9 +738,9 @@
             #part2-details {
                 padding-left: 0.75rem;
                 padding-right: 0.75rem;
-                padding-top: 1rem;
+                padding-top: 2rem;
                 padding-bottom: 8.5rem;
-                gap: 1rem;
+                gap: 1.25rem;
             }
 
             .module-tag {
@@ -812,7 +834,7 @@
     <section id="part1-globe" class="flex flex-col relative w-full h-[100dvh] min-h-[680px] pb-20 sm:pb-10">
         <header class="shrink-0 flex flex-col items-center justify-center pt-4 sm:pt-5 pb-2 sm:pb-4 px-4 z-10 relative pointer-events-none" style="background: linear-gradient(to bottom, rgba(15,23,42,0.96) 0%, rgba(10,12,16,0) 100%);">
             
-            <img src="容器__1_(1).svg" id="user-provided-logo" class="h-4 sm:h-5 mb-3 sm:mb-5 mx-auto pointer-events-auto transition-all" style="filter: brightness(0) invert(1);" alt="金十期货 Logo">
+            <img src="%E5%AE%B9%E5%99%A8__1_(1).svg" id="user-provided-logo" class="h-4 sm:h-5 mb-3 sm:mb-5 mx-auto pointer-events-auto transition-all" style="filter: brightness(0) invert(1);" alt="金十期货 Logo">
 
             <h1 class="text-[28px] sm:text-4xl font-heavy-serif text-center leading-tight gold-gradient-text pointer-events-auto drop-shadow-lg tracking-wider">
                 厄尔尼诺追踪器
