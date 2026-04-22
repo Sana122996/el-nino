@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>厄尔尼诺追踪器 - 金十期货</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@900&display=swap" rel="stylesheet">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.min.js"></script>
@@ -40,6 +44,11 @@
 
         body {
             min-height: 100dvh;
+        }
+
+        .font-heavy-serif {
+            font-family: 'Noto Serif SC', 'Source Han Serif SC', serif;
+            font-weight: 900;
         }
 
         .gold-gradient-text {
@@ -104,44 +113,6 @@
             100% { box-shadow: 0 0 0 0 rgba(255, 77, 79, 0); }
         }
 
-        .marquee-wrap {
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(0, 0, 0, 0.22);
-        }
-
-        .marquee-track {
-            display: flex;
-            width: max-content;
-            gap: 28px;
-            padding: 10px 14px;
-            animation: marqueeMove 26s linear infinite;
-        }
-
-        .marquee-wrap:hover .marquee-track {
-            animation-play-state: paused;
-        }
-
-        @keyframes marqueeMove {
-            from { transform: translateX(0); }
-            to { transform: translateX(-50%); }
-        }
-
-        .marquee-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            white-space: nowrap;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.82);
-        }
-
-        .marquee-item strong {
-            color: #fff;
-        }
-
         .bg-up { background-color: rgba(255, 77, 79, 0.1); border-left: 4px solid var(--primary-red); }
         .bg-down { background-color: rgba(82, 196, 26, 0.1); border-left: 4px solid var(--primary-green); }
         .bg-mixed { background-color: rgba(245, 158, 11, 0.1); border-left: 4px solid #f59e0b; }
@@ -156,7 +127,11 @@
             width: 100%;
             height: 100%;
             cursor: grab;
-            touch-action: none;
+        }
+        
+        #earth-mount canvas {
+            touch-action: pan-y !important;
+            outline: none;
         }
 
         #earth-mount:active {
@@ -176,18 +151,18 @@
             transition: opacity 0.35s ease, transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
             cursor: pointer;
             opacity: 1;
-            min-width: 140px;
-            max-width: 280px;
         }
 
         .globe-continent-marker {
-            min-width: 138px;
-            padding: 12px 18px;
+            min-width: 100px;
+            padding: 8px 12px;
             text-align: center;
         }
 
         .globe-country-marker {
-            min-width: 220px;
+            min-width: 140px;
+            max-width: 180px;
+            padding: 8px 10px;
         }
 
         .globe-marker-card:hover {
@@ -195,7 +170,7 @@
             transform: translate(50%, -50%) scale(1.06);
             border-color: rgba(212, 175, 55, 0.92);
             box-shadow: 0 0 26px rgba(212, 175, 55, 0.24);
-            z-index: 100;
+            z-index: 999;
         }
 
         .is-drag-navigating .globe-marker-card {
@@ -207,9 +182,9 @@
         .marker-tag {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
             border-radius: 9999px;
-            padding: 5px 9px;
+            padding: 3px 6px;
             font-size: 10px;
             line-height: 1;
             background: rgba(255, 255, 255, 0.06);
@@ -306,12 +281,11 @@
         .matrix-item {
             background: rgba(0, 0, 0, 0.28);
             border: 1px solid rgba(255, 255, 255, 0.06);
-            border-radius: 18px;
-            padding: 14px;
-            display: grid;
-            grid-template-columns: minmax(110px, 1.1fr) minmax(0, 2.1fr) 72px;
-            gap: 18px;
-            align-items: start;
+            border-radius: 14px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
             transition: border-color 0.2s ease, transform 0.2s ease, background-color 0.2s ease;
         }
 
@@ -322,34 +296,29 @@
         }
 
         .matrix-title {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 800;
             color: rgba(255, 255, 255, 0.96);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
 
         .matrix-desc {
-            font-size: 12px;
-            line-height: 1.7;
+            font-size: 11px;
+            line-height: 1.5;
             color: rgba(255, 255, 255, 0.68);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .matrix-score {
-            justify-self: end;
             display: inline-flex;
-            align-items: center;
-            gap: 0;
-            padding: 0;
-            background: transparent;
-            border: 0;
             color: #f4dfa1;
-            font-size: 18px;
-            line-height: 1;
-            font-weight: 800;
-            letter-spacing: 0.18em;
-            margin-top: 2px;
+            font-size: 13px;
+            letter-spacing: 0.1em;
         }
 
         .history-note {
@@ -427,69 +396,6 @@
             display: block;
         }
 
-        .jaxa-side-stack {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        .jaxa-info-card {
-            border-radius: 16px;
-            padding: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(0, 0, 0, 0.22);
-        }
-
-        .jaxa-conclusion {
-            border-color: rgba(212, 175, 55, 0.32);
-            background: linear-gradient(180deg, rgba(212, 175, 55, 0.12) 0%, rgba(0, 0, 0, 0.24) 100%);
-        }
-
-        .jaxa-info-title {
-            font-size: 11px;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.48);
-            margin-bottom: 6px;
-        }
-
-        .jaxa-info-body {
-            font-size: 12px;
-            line-height: 1.65;
-            color: rgba(255, 255, 255, 0.86);
-        }
-
-        .jaxa-region-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .jaxa-region {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            padding: 10px 10px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.03);
-        }
-
-        .jaxa-region-code {
-            flex-shrink: 0;
-            font-weight: 800;
-            font-size: 11px;
-            letter-spacing: 0.1em;
-            color: #f4dfa1;
-            width: 74px;
-        }
-
-        .jaxa-region-text {
-            font-size: 11px;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.75);
-        }
-
         .module-title {
             font-size: 19px;
             font-weight: 800;
@@ -497,18 +403,26 @@
             color: rgba(255, 255, 255, 0.96);
         }
 
-        .module-subtitle {
-            font-size: 12px;
-            line-height: 1.65;
-            color: rgba(255, 255, 255, 0.58);
-            max-width: 56ch;
+        /* 跳转页动画与样式 */
+        .page-hidden {
+            transform: translateX(100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .page-visible {
+            transform: translateX(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .jump-page {
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.35s ease;
         }
 
         @media (max-width: 640px) {
-            .module-head {
-                gap: 10px;
+            .globe-continent-marker {
+                min-width: 90px;
+                padding: 8px 12px;
             }
-
             .module-title {
                 font-size: 17px;
             }
@@ -571,25 +485,9 @@
         }
 
         @media (max-width: 640px) {
-            .jaxa-side-stack {
-                grid-template-columns: 1fr;
-            }
-
-            .matrix-item {
-                grid-template-columns: 1fr;
-            }
-
-            .matrix-score {
-                justify-self: start;
-            }
-
-            .globe-marker-card {
-                min-width: 128px;
-                max-width: 240px;
-            }
-
             .globe-country-marker {
-                min-width: 190px;
+                min-width: 130px;
+                max-width: 160px;
             }
         }
 
@@ -613,16 +511,6 @@
 
             .help-panel {
                 padding: 0.7rem 0.8rem;
-            }
-
-            .marquee-track {
-                gap: 18px;
-                padding: 8px 10px;
-                animation-duration: 34s;
-            }
-
-            .marquee-item {
-                font-size: 11px;
             }
 
             .section-chip {
@@ -661,15 +549,6 @@
                 padding: 1rem;
             }
 
-            .module-head {
-                gap: 0.65rem;
-                margin-bottom: 12px;
-            }
-
-            .module-head-tabs {
-                justify-content: flex-start;
-            }
-
             .module-title {
                 font-size: 1rem;
                 line-height: 1.25;
@@ -705,22 +584,12 @@
                 padding: 0.85rem;
             }
 
-            .matrix-item {
-                gap: 10px;
-                padding: 12px;
-            }
-
             .matrix-title {
-                font-size: 14px;
+                font-size: 13px;
             }
 
             .matrix-desc {
-                font-size: 11px;
-            }
-
-            .matrix-score {
-                font-size: 16px;
-                letter-spacing: 0.12em;
+                font-size: 10px;
             }
 
             .crop-card {
@@ -749,56 +618,51 @@
             .footer-immersive .text-sm {
                 font-size: 0.8rem;
             }
-
-            .globe-marker-card {
-                min-width: 118px;
-                max-width: 220px;
-                padding: 8px 10px;
-            }
-
-            .globe-continent-marker {
-                min-width: 118px;
-                padding: 10px 14px;
-            }
-
-            .globe-country-marker {
-                min-width: 176px;
-            }
         }
     </style>
 </head>
 <body class="flex flex-col min-h-[100dvh] relative">
     <section id="part1-globe" class="flex flex-col relative w-full h-[100dvh] min-h-[680px] pb-20">
-        <header class="shrink-0 flex flex-col items-center justify-center pt-7 pb-4 px-4 z-10 relative pointer-events-none" style="background: linear-gradient(to bottom, rgba(15,23,42,0.96) 0%, rgba(10,12,16,0) 100%);">
+        <header class="shrink-0 flex flex-col items-center justify-center pt-5 pb-4 px-4 z-10 relative pointer-events-none" style="background: linear-gradient(to bottom, rgba(15,23,42,0.96) 0%, rgba(10,12,16,0) 100%);">
             
-            <img src="容器__1_(1).svg" class="h-6 sm:h-7 mb-2 mx-auto drop-shadow-[0_0_10px_rgba(212,175,55,0.5)]" alt="logo">
+            <img src="容器__1_(1).svg" class="h-4 sm:h-5 mb-2 mx-auto pointer-events-auto" style="filter: brightness(0) invert(1);" alt="金十期货 Logo">
 
-            <h1 class="text-[28px] sm:text-4xl font-extrabold text-center leading-tight gold-gradient-text pointer-events-auto drop-shadow-lg">
+            <h1 class="text-[28px] sm:text-4xl font-heavy-serif text-center leading-tight gold-gradient-text pointer-events-auto drop-shadow-lg tracking-wider">
                 厄尔尼诺追踪器
             </h1>
             <p class="mt-2 text-[12px] sm:text-sm text-center text-gray-300 pointer-events-auto max-w-[720px] px-2 leading-relaxed">
                 跟踪 ENSO 状态变化，观察全球产区、天气扰动与商品历史传导路径。
             </p>
 
-            <div class="mt-3 help-panel rounded-3xl px-4 py-3 w-[92%] max-w-[780px] pointer-events-auto">
-                <div class="flex flex-col gap-2">
+            <div class="mt-4 help-panel rounded-3xl px-4 py-4 w-[92%] max-w-[780px] pointer-events-auto shadow-[0_10px_30px_rgba(0,0,0,0.4)]">
+                <div class="flex flex-col gap-3">
                     <div class="flex items-center justify-between gap-3">
                         <div class="live-chip">
                             <span class="live-dot"></span>
                             实时监控
                         </div>
-                        <div class="text-[10px] text-gray-400 hidden sm:block">最新产业快讯轮播</div>
+                        <div class="text-[16px] sm:text-[18px] font-black text-white hidden sm:block mr-auto ml-2 tracking-widest drop-shadow-sm">最新产业快讯</div>
+                        <div class="text-[12px] sm:text-[13px] text-gray-200 font-bold cursor-pointer flex items-center gap-1 hover:text-[var(--text-gold)] transition-colors border border-white/10 rounded-full px-3 py-1.5 bg-white/5" onclick="openNewsModal()">
+                            查看全部 <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+                        </div>
                     </div>
-                    <div class="marquee-wrap">
-                        <div class="marquee-track">
-                            <span class="marquee-item"><strong>最新产业快讯</strong><span>·</span>NOAA 最新月报：ENSO 中性仍为基线，5-7月回归厄尔尼诺概率抬升</span>
-                            <span class="marquee-item"><strong>产地跟踪</strong><span>·</span>印度部分主产区出现异常高温，甘蔗与棉花生长窗口面临重新评估</span>
-                            <span class="marquee-item"><strong>市场异动</strong><span>·</span>巴西中南部降雨偏强，大豆收获与物流发运节奏继续承压</span>
-                            <span class="marquee-item"><strong>产量快报</strong><span>·</span>马来西亚气象局更新干旱预警，棕榈油主产区水分条件仍需继续跟踪</span>
-                            <span class="marquee-item"><strong>最新产业快讯</strong><span>·</span>NOAA 最新月报：ENSO 中性仍为基线，5-7月回归厄尔尼诺概率抬升</span>
-                            <span class="marquee-item"><strong>产地跟踪</strong><span>·</span>印度部分主产区出现异常高温，甘蔗与棉花生长窗口面临重新评估</span>
-                            <span class="marquee-item"><strong>市场异动</strong><span>·</span>巴西中南部降雨偏强，大豆收获与物流发运节奏继续承压</span>
-                            <span class="marquee-item"><strong>产量快报</strong><span>·</span>马来西亚气象局更新干旱预警，棕榈油主产区水分条件仍需继续跟踪</span>
+                    
+                    <div class="text-[16px] font-black text-white sm:hidden tracking-widest drop-shadow-sm px-1">最新产业快讯</div>
+                    
+                    <div class="relative h-[76px] overflow-hidden rounded-xl bg-black/30 px-3 w-full border border-[rgba(212,175,55,0.15)] shadow-inner">
+                        <div id="vertical-ticker" class="absolute w-full left-0 px-3 transition-transform duration-500 ease-in-out">
+                            <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
+                                <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">气象监测</strong>NOAA 最新月报：ENSO 中性仍为基线，5-7月回归厄尔尼诺概率抬升</div>
+                            </div>
+                            <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
+                                <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">产地跟踪</strong>印度部分主产区出现异常高温，甘蔗与棉花生长窗口面临重新评估</div>
+                            </div>
+                            <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
+                                <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">市场异动</strong>巴西中南部降雨偏强，大豆收获与物流发运节奏继续承压</div>
+                            </div>
+                            <div class="h-[76px] flex flex-col justify-center text-[13px] sm:text-[14px] text-gray-200 leading-[1.6]">
+                                <div class="line-clamp-3 w-full"><strong class="text-[var(--text-gold)] mr-2 font-black">产量快报</strong>马来西亚气象局更新干旱预警，棕榈油主产区水分条件仍需继续跟踪</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -825,8 +689,8 @@
                 <div class="flex flex-wrap items-center justify-center gap-2 text-[11px] text-gray-300">
                     <span class="section-chip">ENSO 中性</span>
                     <span class="section-chip">关注窗口：2026年5-7月</span>
-                    <span class="section-chip">拖动旋转</span>
-                    <span class="section-chip">点击国家看详情</span>
+                    <span class="section-chip" style="border-color: var(--text-gold); color: var(--text-gold);">滑动地球以旋转查看</span>
+                    <span class="section-chip">点击卡片看详情</span>
                 </div>
             </div>
 
@@ -840,217 +704,83 @@
 
     <div id="part2-details" class="max-w-[900px] mx-auto px-4 py-8 pb-36 flex flex-col gap-8">
         <section class="panel-card rounded-3xl p-5 sm:p-6 border border-white/10">
-            <div class="flex flex-col gap-4">
-                <div class="flex items-start justify-between gap-4 border-b border-white/10 pb-3">
-                    <div class="flex flex-col gap-2">
-                        <div class="flex flex-wrap items-center gap-3">
-                            <button id="tab-news" type="button" class="text-[var(--text-gold)] text-[15px] sm:text-lg font-bold border-b-2 border-[var(--text-gold)] pb-1.5 transition-all" onclick="switchTheme('news')">
-                                最新产业快讯
-                            </button>
-                            <button id="tab-reports" type="button" class="text-gray-400 hover:text-gray-200 text-[15px] sm:text-lg font-bold border-b-2 border-transparent pb-1.5 transition-all" onclick="switchTheme('reports')">
-                                机构研报
-                            </button>
-                        </div>
-                    </div>
-                    <div class="hidden sm:flex items-center gap-2 text-[11px] text-gray-300 border border-white/10 rounded-full px-3 py-2 bg-white/5">
-                        <i data-lucide="rss" class="w-4 h-4 text-[var(--text-gold)]"></i>
-                        精选整理
+            <div class="module-head flex-col !items-start gap-4 mb-5">
+                <div class="module-head-left w-full">
+                    <div class="module-title gold-gradient-text flex items-start sm:items-center gap-2">
+                        <i data-lucide="thermometer" class="w-5 h-5 shrink-0 mt-1 sm:mt-0"></i>
+                        <span class="whitespace-normal leading-snug">厄尔尼诺现象对各地区的影响</span>
                     </div>
                 </div>
-
-                <div class="h-[360px] overflow-y-auto custom-scrollbar pr-2">
-                    <div id="content-news" class="flex flex-col gap-3">
-                        <article class="news-card">
-                            <div class="news-topline">
-                                <span class="news-badge text-red-300 border-red-400/20 bg-red-400/10">气象监测</span>
-                                <span class="text-[11px] text-gray-500">2026-04-21 22:30</span>
-                            </div>
-                            <h4 class="news-title">NOAA 最新月报：ENSO 中性仍为基线，5-7月回归厄尔尼诺概率抬升</h4>
-                            <p class="news-summary">公开月报维持中性状态判断，但热带太平洋海温异常的跟踪窗口已经打开，市场需关注后续预报路径是否持续抬升。</p>
-                            <div class="news-meta">
-                                <span class="news-badge">来源：NOAA</span>
-                                <span class="news-badge">关注：海温 / 大气耦合</span>
-                                <span class="news-badge">属性：公开资料</span>
-                            </div>
-                        </article>
-
-                        <article class="news-card">
-                            <div class="news-topline">
-                                <span class="news-badge text-orange-200 border-orange-400/20 bg-orange-400/10">产地跟踪</span>
-                                <span class="text-[11px] text-gray-500">2026-04-21 20:10</span>
-                            </div>
-                            <h4 class="news-title">印度部分主产区出现异常高温，甘蔗与棉花生长窗口面临重新评估</h4>
-                            <p class="news-summary">马哈拉施特拉邦与北部部分产区的热应力上升，若降水回补不及预期，生长节奏与单产稳定性都可能受到影响。</p>
-                            <div class="news-meta">
-                                <span class="news-badge">来源：公开气象资料</span>
-                                <span class="news-badge">品种：甘蔗 / 棉花</span>
-                                <span class="news-badge">属性：产区跟踪</span>
-                            </div>
-                        </article>
-
-                        <article class="news-card">
-                            <div class="news-topline">
-                                <span class="news-badge text-green-200 border-green-400/20 bg-green-400/10">市场异动</span>
-                                <span class="text-[11px] text-gray-500">2026-04-21 18:50</span>
-                            </div>
-                            <h4 class="news-title">巴西中南部降雨偏强，大豆收获与物流发运节奏继续承压</h4>
-                            <p class="news-summary">持续降雨增加了田间作业和运输的不确定性，港口排队与跨州公路效率成为短期观察重点。</p>
-                            <div class="news-meta">
-                                <span class="news-badge">来源：产业资料</span>
-                                <span class="news-badge">品种：大豆</span>
-                                <span class="news-badge">属性：物流扰动</span>
-                            </div>
-                        </article>
-
-                        <article class="news-card">
-                            <div class="news-topline">
-                                <span class="news-badge text-rose-300 border-rose-400/20 bg-rose-400/10">产量快报</span>
-                                <span class="text-[11px] text-gray-500">2026-04-20 21:00</span>
-                            </div>
-                            <h4 class="news-title">马来西亚气象局更新干旱预警，棕榈油主产区水分条件仍需继续跟踪</h4>
-                            <p class="news-summary">若降水恢复速度慢于季节性均值，树龄结构较老的区域更容易出现产量兑现滞后。</p>
-                            <div class="news-meta">
-                                <span class="news-badge">来源：公开气象资料</span>
-                                <span class="news-badge">品种：棕榈油</span>
-                                <span class="news-badge">属性：供给跟踪</span>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div id="content-reports" class="hidden flex flex-col gap-3">
-                        <article class="news-card">
-                            <div class="news-topline">
-                                <span class="news-badge text-sky-200 border-sky-400/20 bg-sky-400/10">深度宏观</span>
-                                <span class="text-[11px] text-gray-500">2026-04-20</span>
-                            </div>
-                            <h4 class="news-title">高盛宏观：2026 年全球大宗商品展望中，厄尔尼诺是重要的定价扰动变量</h4>
-                            <p class="news-summary">报告从能源替代、农产品单产和区域降水重分布三条线索解释气候扰动对跨品种价格结构的影响。</p>
-                            <div class="news-meta">
-                                <span class="news-badge">来源：机构研报</span>
-                                <span class="news-badge">主题：跨品种传导</span>
-                                <span class="news-badge">属性：公开整理</span>
-                            </div>
-                        </article>
-
-                        <article class="news-card">
-                            <div class="news-topline">
-                                <span class="news-badge text-indigo-200 border-indigo-400/20 bg-indigo-400/10">农牧纪要</span>
-                                <span class="text-[11px] text-gray-500">2026-04-18</span>
-                            </div>
-                            <h4 class="news-title">中信建投：糖业供需跟踪中，厄尔尼诺更容易通过降雨分布影响产区节奏</h4>
-                            <p class="news-summary">报告强调关注印度、泰国与巴西不同产区的季节性差异，而不是把气候扰动简单理解为单向涨跌。</p>
-                            <div class="news-meta">
-                                <span class="news-badge">来源：机构研报</span>
-                                <span class="news-badge">主题：白糖 / 甘蔗</span>
-                                <span class="news-badge">属性：产业跟踪</span>
-                            </div>
-                        </article>
-
-                        <article class="news-card">
-                            <div class="news-topline">
-                                <span class="news-badge text-gray-200 border-gray-400/20 bg-gray-400/10">官方智库</span>
-                                <span class="text-[11px] text-gray-500">2026-04-12</span>
-                            </div>
-                            <h4 class="news-title">USDA 供需预估草案开始引入本轮厄尔尼诺权重因子</h4>
-                            <p class="news-summary">在新作面积与天气升水的初步评估中，公开模型已开始反映气候扰动对单产节奏的影响。</p>
-                            <div class="news-meta">
-                                <span class="news-badge">来源：官方资料</span>
-                                <span class="news-badge">主题：美豆 / 美玉米</span>
-                                <span class="news-badge">属性：供需预估</span>
-                            </div>
-                        </article>
-
-                        <article class="news-card">
-                            <div class="news-topline">
-                                <span class="news-badge text-amber-200 border-amber-400/20 bg-amber-400/10">专题整理</span>
-                                <span class="text-[11px] text-gray-500">2026-04-10</span>
-                            </div>
-                            <h4 class="news-title">大宗内参：棕榈油周度整理更应关注降水偏离与出口节奏，而非单一价格表述</h4>
-                            <p class="news-summary">专题观察建议结合主产区天气、船期变化和库存节奏同步阅读，以降低对单条消息的误读。</p>
-                            <div class="news-meta">
-                                <span class="news-badge">来源：公开整理</span>
-                                <span class="news-badge">主题：棕榈油</span>
-                                <span class="news-badge">属性：周度跟踪</span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="panel-card rounded-3xl p-5 sm:p-6 border border-white/10">
-            <div class="module-head">
-                <div class="module-head-left">
-                    <div class="module-title gold-gradient-text flex items-center gap-2 min-w-0">
-                        <i data-lucide="thermometer" class="w-5 h-5 shrink-0"></i>
-                        <span class="truncate">厄尔尼诺现象对各地区的影响</span>
-                    </div>
-                </div>
-                <div class="module-head-tabs flex flex-wrap justify-end gap-2">
-                    <button type="button" data-core-tab="sensitivity" onclick="switchCoreImpactTab('sensitivity')" class="module-tag module-tag--right module-tab is-active">敏感度</button>
-                    <button type="button" data-core-tab="strength" onclick="switchCoreImpactTab('strength')" class="module-tag module-tag--right module-tab">历年强度</button>
-                    <button type="button" data-core-tab="impact" onclick="switchCoreImpactTab('impact')" class="module-tag module-tag--right module-tab">历史影响</button>
+                <div class="module-head-tabs flex flex-wrap justify-start gap-2 w-full">
+                    <button type="button" data-core-tab="sensitivity" onclick="switchCoreImpactTab('sensitivity')" class="module-tag module-tab is-active">敏感度</button>
+                    <button type="button" data-core-tab="strength" onclick="switchCoreImpactTab('strength')" class="module-tag module-tab">历年强度</button>
+                    <button type="button" data-core-tab="impact" onclick="switchCoreImpactTab('impact')" class="module-tag module-tab">历史影响</button>
                 </div>
             </div>
 
             <div class="flex flex-col gap-4">
                 <div class="module-panel is-active rounded-2xl border border-white/10 bg-black/25 p-4 sm:p-5" data-panel="sensitivity">
-                    <div class="flex flex-col gap-3">
+                    
+                    <div class="flex items-center gap-2 mb-4 px-1">
+                        <span class="text-[13px] sm:text-sm font-bold text-[var(--text-gold)] tracking-wide">⭐️ 各品种受影响程度</span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
                         <div class="matrix-item">
-                            <div>
+                            <div class="flex flex-col gap-1">
                                 <div class="matrix-title"><span class="text-base">🌴</span> 棕榈油</div>
-                                <div class="mt-2 text-[11px] text-red-300/90 font-semibold tracking-[0.18em]">高敏品种</div>
+                                <div class="matrix-score text-[14px]">★★★★★</div>
+                                <div class="mt-1 text-[11px] text-red-300/90 font-semibold tracking-[0.18em]">高敏品种</div>
                             </div>
-                            <div class="matrix-desc">东南亚干旱会明显压缩果串产量，单产影响通常具有滞后性，历史上常是厄尔尼诺传导最直接的品种之一。</div>
-                            <div class="matrix-score">★★★★★</div>
+                            <div class="matrix-desc mt-1">东南亚干旱会明显压缩果串产量，单产影响通常具有滞后性，历史上常是厄尔尼诺传导最直接的品种之一。</div>
                         </div>
                         <div class="matrix-item">
-                            <div>
+                            <div class="flex flex-col gap-1">
                                 <div class="matrix-title"><span class="text-base">🫘</span> 大豆</div>
-                                <div class="mt-2 text-[11px] text-green-300/90 font-semibold tracking-[0.18em]">偏受益</div>
+                                <div class="matrix-score text-[14px]">★★★★</div>
+                                <div class="mt-1 text-[11px] text-green-300/90 font-semibold tracking-[0.18em]">偏受益</div>
                             </div>
-                            <div class="matrix-desc">美洲核心产区多在偏湿背景下改善单产，历史上更常表现为丰产预期增强，而非单边减产。</div>
-                            <div class="matrix-score">★★★★</div>
+                            <div class="matrix-desc mt-1">美洲核心产区多在偏湿背景下改善单产，历史上更常表现为丰产预期增强，而非单边减产。</div>
                         </div>
                         <div class="matrix-item">
-                            <div>
+                            <div class="flex flex-col gap-1">
                                 <div class="matrix-title"><span class="text-base">🌾</span> 小麦 / 稻谷</div>
-                                <div class="mt-2 text-[11px] text-amber-200/90 font-semibold tracking-[0.18em]">结构性扰动</div>
+                                <div class="matrix-score text-[14px]">★★★★</div>
+                                <div class="mt-1 text-[11px] text-amber-200/90 font-semibold tracking-[0.18em]">结构性扰动</div>
                             </div>
-                            <div class="matrix-desc">澳洲、南亚与东南亚对温度和降雨分布都更敏感，厄尔尼诺往往通过播种、抽穗和灌浆阶段错位影响产量。</div>
-                            <div class="matrix-score">★★★★</div>
+                            <div class="matrix-desc mt-1">澳洲、南亚与东南亚对温度和降雨分布更敏感，往往通过播种、抽穗和灌浆阶段错位影响产量。</div>
                         </div>
                         <div class="matrix-item">
-                            <div>
+                            <div class="flex flex-col gap-1">
                                 <div class="matrix-title"><span class="text-base">💨</span> 天然气</div>
-                                <div class="mt-2 text-[11px] text-green-300/90 font-semibold tracking-[0.18em]">暖冬影响</div>
+                                <div class="matrix-score text-[14px]">★★★</div>
+                                <div class="mt-1 text-[11px] text-green-300/90 font-semibold tracking-[0.18em]">暖冬影响</div>
                             </div>
-                            <div class="matrix-desc">北半球若出现更偏暖的冬季，取暖负荷往往回落，消费端需求弹性更容易被压低。</div>
-                            <div class="matrix-score">★★★</div>
+                            <div class="matrix-desc mt-1">北半球若出现更偏暖的冬季，取暖负荷往往回落，消费端需求弹性更容易被压低。</div>
                         </div>
                         <div class="matrix-item">
-                            <div>
-                                <div class="matrix-title"><span class="text-base">⛰️</span> 煤炭 / 有色金属</div>
-                                <div class="mt-2 text-[11px] text-amber-200/90 font-semibold tracking-[0.18em]">区域传导</div>
+                            <div class="flex flex-col gap-1">
+                                <div class="matrix-title"><span class="text-base">⛰️</span> 煤炭 / 有色</div>
+                                <div class="matrix-score text-[14px]">★★★</div>
+                                <div class="mt-1 text-[11px] text-amber-200/90 font-semibold tracking-[0.18em]">区域传导</div>
                             </div>
-                            <div class="matrix-desc">降雨分布变化会影响水电、航运与电力替代节奏，更多体现为区域性能源和物流约束，而非统一方向变化。</div>
-                            <div class="matrix-score">★★★</div>
+                            <div class="matrix-desc mt-1">降雨变化影响水电、航运与电力替代节奏，更多体现为区域性能源和物流约束。</div>
                         </div>
                         <div class="matrix-item">
-                            <div>
+                            <div class="flex flex-col gap-1">
                                 <div class="matrix-title"><span class="text-base">🌽</span> 玉米</div>
-                                <div class="mt-2 text-[11px] text-gray-300/90 font-semibold tracking-[0.18em]">中性偏弱</div>
+                                <div class="matrix-score text-[14px]">★★</div>
+                                <div class="mt-1 text-[11px] text-gray-300/90 font-semibold tracking-[0.18em]">中性偏弱</div>
                             </div>
-                            <div class="matrix-desc">夏季降雨偏多时，美玉米关键生长期更容易获得水分支持，历史上气候效应相对温和，单产多增少降。</div>
-                            <div class="matrix-score">★★</div>
+                            <div class="matrix-desc mt-1">夏季降雨偏多时，美玉米关键生长期更容易获得水分支持，单产多增少降。</div>
                         </div>
-                        <div class="matrix-item">
-                            <div>
+                        <div class="matrix-item col-span-2 sm:col-span-1">
+                            <div class="flex flex-col gap-1">
                                 <div class="matrix-title"><span class="text-base">🛢️</span> 原油</div>
-                                <div class="mt-2 text-[11px] text-gray-300/90 font-semibold tracking-[0.18em]">间接传导</div>
+                                <div class="matrix-score text-[14px]">★★</div>
+                                <div class="mt-1 text-[11px] text-gray-300/90 font-semibold tracking-[0.18em]">间接传导</div>
                             </div>
-                            <div class="matrix-desc">更常通过交通出行、工业活动和区域能源替代间接影响需求，历史上规律并不如农产品直接。</div>
-                            <div class="matrix-score">★★</div>
+                            <div class="matrix-desc mt-1">更常通过交通出行、工业活动和区域能源替代间接影响需求，历史上规律不如农产品直接。</div>
                         </div>
                     </div>
                 </div>
@@ -1167,6 +897,156 @@
         </section>
     </div>
 
+    <div id="news-reports-page" class="page-hidden jump-page fixed inset-0 z-[100] flex flex-col bg-[#0a0c10] pb-[env(safe-area-inset-bottom)]">
+        
+        <div class="flex items-center justify-between px-4 py-3 border-b border-[rgba(212,175,55,0.16)] shrink-0 bg-[rgba(15,23,42,0.96)] backdrop-blur-md sticky top-0 z-10 shadow-md">
+            <button onclick="closeNewsModal()" class="flex items-center gap-1 text-[var(--text-gold)] rounded hover:bg-[rgba(212,175,55,0.1)] transition outline-none py-1.5 pr-3">
+                <i data-lucide="chevron-left" class="w-5 h-5"></i>
+                <span class="text-[15px] font-bold">返回</span>
+            </button>
+            <h2 class="text-[17px] font-black text-white tracking-widest absolute left-1/2 -translate-x-1/2 flex items-center gap-2">
+                <i data-lucide="book-open" class="w-4 h-4 text-[var(--text-gold)]"></i> 资讯与研报
+            </h2>
+            <div class="w-[70px]"></div> </div>
+
+        <div class="p-4 sm:p-6 overflow-y-auto flex-1 custom-scrollbar w-full max-w-[900px] mx-auto">
+            <div class="flex flex-col gap-4">
+                <div class="flex items-start justify-between gap-4 border-b border-white/10 pb-3">
+                    <div class="flex flex-col gap-2">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <button id="tab-news" type="button" class="text-[var(--text-gold)] text-[15px] sm:text-lg font-bold border-b-2 border-[var(--text-gold)] pb-1.5 transition-all" onclick="switchTheme('news')">
+                                最新产业快讯
+                            </button>
+                            <button id="tab-reports" type="button" class="text-gray-400 hover:text-gray-200 text-[15px] sm:text-lg font-bold border-b-2 border-transparent pb-1.5 transition-all" onclick="switchTheme('reports')">
+                                机构研报
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hidden sm:flex items-center gap-2 text-[11px] text-gray-300 border border-white/10 rounded-full px-3 py-2 bg-white/5">
+                        <i data-lucide="rss" class="w-4 h-4 text-[var(--text-gold)]"></i>
+                        精选整理
+                    </div>
+                </div>
+
+                <div id="content-news" class="flex flex-col gap-3">
+                    <article class="news-card">
+                        <div class="news-topline">
+                            <span class="news-badge text-red-300 border-red-400/20 bg-red-400/10">气象监测</span>
+                            <span class="text-[11px] text-gray-500">2026-04-21 22:30</span>
+                        </div>
+                        <h4 class="news-title">NOAA 最新月报：ENSO 中性仍为基线，5-7月回归厄尔尼诺概率抬升</h4>
+                        <p class="news-summary">公开月报维持中性状态判断，但热带太平洋海温异常的跟踪窗口已经打开，市场需关注后续预报路径是否持续抬升。</p>
+                        <div class="news-meta">
+                            <span class="news-badge">来源：NOAA</span>
+                            <span class="news-badge">关注：海温 / 大气耦合</span>
+                            <span class="news-badge">属性：公开资料</span>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <div class="news-topline">
+                            <span class="news-badge text-orange-200 border-orange-400/20 bg-orange-400/10">产地跟踪</span>
+                            <span class="text-[11px] text-gray-500">2026-04-21 20:10</span>
+                        </div>
+                        <h4 class="news-title">印度部分主产区出现异常高温，甘蔗与棉花生长窗口面临重新评估</h4>
+                        <p class="news-summary">马哈拉施特拉邦与北部部分产区的热应力上升，若降水回补不及预期，生长节奏与单产稳定性都可能受到影响。</p>
+                        <div class="news-meta">
+                            <span class="news-badge">来源：公开气象资料</span>
+                            <span class="news-badge">品种：甘蔗 / 棉花</span>
+                            <span class="news-badge">属性：产区跟踪</span>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <div class="news-topline">
+                            <span class="news-badge text-green-200 border-green-400/20 bg-green-400/10">市场异动</span>
+                            <span class="text-[11px] text-gray-500">2026-04-21 18:50</span>
+                        </div>
+                        <h4 class="news-title">巴西中南部降雨偏强，大豆收获与物流发运节奏继续承压</h4>
+                        <p class="news-summary">持续降雨增加了田间作业和运输的不确定性，港口排队与跨州公路效率成为短期观察重点。</p>
+                        <div class="news-meta">
+                            <span class="news-badge">来源：产业资料</span>
+                            <span class="news-badge">品种：大豆</span>
+                            <span class="news-badge">属性：物流扰动</span>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <div class="news-topline">
+                            <span class="news-badge text-rose-300 border-rose-400/20 bg-rose-400/10">产量快报</span>
+                            <span class="text-[11px] text-gray-500">2026-04-20 21:00</span>
+                        </div>
+                        <h4 class="news-title">马来西亚气象局更新干旱预警，棕榈油主产区水分条件仍需继续跟踪</h4>
+                        <p class="news-summary">若降水恢复速度慢于季节性均值，树龄结构较老的区域更容易出现产量兑现滞后。</p>
+                        <div class="news-meta">
+                            <span class="news-badge">来源：公开气象资料</span>
+                            <span class="news-badge">品种：棕榈油</span>
+                            <span class="news-badge">属性：供给跟踪</span>
+                        </div>
+                    </article>
+                </div>
+
+                <div id="content-reports" class="hidden flex flex-col gap-3">
+                    <article class="news-card">
+                        <div class="news-topline">
+                            <span class="news-badge text-sky-200 border-sky-400/20 bg-sky-400/10">深度宏观</span>
+                            <span class="text-[11px] text-gray-500">2026-04-20</span>
+                        </div>
+                        <h4 class="news-title">高盛宏观：2026 年全球大宗商品展望中，厄尔尼诺是重要的定价扰动变量</h4>
+                        <p class="news-summary">报告从能源替代、农产品单产和区域降水重分布三条线索解释气候扰动对跨品种价格结构的影响。</p>
+                        <div class="news-meta">
+                            <span class="news-badge">来源：机构研报</span>
+                            <span class="news-badge">主题：跨品种传导</span>
+                            <span class="news-badge">属性：公开整理</span>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <div class="news-topline">
+                            <span class="news-badge text-indigo-200 border-indigo-400/20 bg-indigo-400/10">农牧纪要</span>
+                            <span class="text-[11px] text-gray-500">2026-04-18</span>
+                        </div>
+                        <h4 class="news-title">中信建投：糖业供需跟踪中，厄尔尼诺更容易通过降雨分布影响产区节奏</h4>
+                        <p class="news-summary">报告强调关注印度、泰国与巴西不同产区的季节性差异，而不是把气候扰动简单理解为单向涨跌。</p>
+                        <div class="news-meta">
+                            <span class="news-badge">来源：机构研报</span>
+                            <span class="news-badge">主题：白糖 / 甘蔗</span>
+                            <span class="news-badge">属性：产业跟踪</span>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <div class="news-topline">
+                            <span class="news-badge text-gray-200 border-gray-400/20 bg-gray-400/10">官方智库</span>
+                            <span class="text-[11px] text-gray-500">2026-04-12</span>
+                        </div>
+                        <h4 class="news-title">USDA 供需预估草案开始引入本轮厄尔尼诺权重因子</h4>
+                        <p class="news-summary">在新作面积与天气升水的初步评估中，公开模型已开始反映气候扰动对单产节奏的影响。</p>
+                        <div class="news-meta">
+                            <span class="news-badge">来源：官方资料</span>
+                            <span class="news-badge">主题：美豆 / 美玉米</span>
+                            <span class="news-badge">属性：供需预估</span>
+                        </div>
+                    </article>
+
+                    <article class="news-card">
+                        <div class="news-topline">
+                            <span class="news-badge text-amber-200 border-amber-400/20 bg-amber-400/10">专题整理</span>
+                            <span class="text-[11px] text-gray-500">2026-04-10</span>
+                        </div>
+                        <h4 class="news-title">大宗内参：棕榈油周度整理更应关注降水偏离与出口节奏，而非单一价格表述</h4>
+                        <p class="news-summary">专题观察建议结合主产区天气、船期变化和库存节奏同步阅读，以降低对单条消息的误读。</p>
+                        <div class="news-meta">
+                            <span class="news-badge">来源：公开整理</span>
+                            <span class="news-badge">主题：棕榈油</span>
+                            <span class="news-badge">属性：周度跟踪</span>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="impact-modal" class="modal-hidden fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md transition-opacity duration-300 px-4 pb-[env(safe-area-inset-bottom)]">
         <div class="w-full max-w-[560px] immersive-modal-content relative flex flex-col max-h-[82vh]">
             <div class="flex items-center justify-between px-5 sm:px-6 py-4 border-b border-[rgba(212,175,55,0.16)] shrink-0">
@@ -1180,7 +1060,7 @@
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
             </div>
-            <div id="modal-content" class="p-5 overflow-y-auto flex-1 space-y-3"></div>
+            <div id="modal-content" class="p-5 overflow-y-auto flex-1 space-y-3 custom-scrollbar"></div>
         </div>
     </div>
 
@@ -1203,6 +1083,17 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
+
+            // Setup Vertical Ticker
+            let tickerIndex = 0;
+            const ticker = document.getElementById('vertical-ticker');
+            if (ticker) {
+                const tickerItems = ticker.children.length;
+                setInterval(() => {
+                    tickerIndex = (tickerIndex + 1) % tickerItems;
+                    ticker.style.transform = `translateY(-${tickerIndex * 76}px)`;
+                }, 4000);
+            }
 
             const iconMap = {
                 '大豆': '🫘',
@@ -1298,8 +1189,7 @@
                 el.className = 'globe-marker-card globe-continent-marker flex flex-col items-center justify-center gap-1';
                 el.innerHTML = `
                     <div class="text-[10px] tracking-[0.28em] text-gray-300 uppercase">点击进入</div>
-                    <div class="text-xl sm:text-2xl font-black" style="color: var(--text-gold); letter-spacing: 2px;">${d.name}</div>
-                    <div class="text-[11px] text-gray-400">区域视角</div>
+                    <div class="text-lg sm:text-xl font-black mt-0.5" style="color: var(--text-gold); letter-spacing: 2px;">${d.name}</div>
                 `;
                 el.onclick = () => {
                     activeContinentId = d.id;
@@ -1310,9 +1200,9 @@
 
             function renderCountryMarker(d) {
                 const el = document.createElement('div');
-                el.className = 'globe-marker-card globe-country-marker flex flex-col gap-2';
+                el.className = 'globe-marker-card globe-country-marker flex flex-col gap-1.5';
 
-                const chips = d.impacts.slice(0, 2).map(imp => {
+                const chips = d.impacts.slice(0, 3).map(imp => {
                     const baseItemStr = imp.item.split(' ')[0];
                     const emoji = iconMap[baseItemStr] || '📦';
                     const safeItem = imp.item.replace(/\s*\(.*?\)/g, '');
@@ -1325,30 +1215,18 @@
                     `;
                 }).join('');
 
-                const extraCount = d.impacts.length > 2 ? `<span class="text-[11px] text-[var(--text-gold)]">+${d.impacts.length - 2} 项</span>` : '';
                 const disturbanceLine = d.disturbance
-                    ? `<div class="text-[10px] uppercase tracking-[0.2em] text-red-300/90 font-semibold">区域扰动 · ${d.disturbance}</div>`
-                    : `<div class="text-[10px] uppercase tracking-[0.2em] text-gray-400">点击查看完整影响</div>`;
+                    ? `<div class="text-[11px] font-bold text-red-400/90 tracking-wider">${d.disturbance}</div>`
+                    : ``;
 
                 el.innerHTML = `
-                    <div class="flex items-start justify-between gap-3">
-                        <div>
-                            <div class="text-[11px] text-gray-400 tracking-[0.18em] uppercase">国家 / 地区</div>
-                            <div class="mt-1 text-[15px] sm:text-[16px] font-black" style="color: var(--text-gold);">${d.country}</div>
-                        </div>
-                        ${d.disturbance ? '<span class="text-[10px] rounded-full px-2 py-1 border border-red-400/25 bg-red-400/10 text-red-200">跟踪中</span>' : ''}
-                    </div>
+                    <div class="text-[14px] sm:text-[15px] font-black tracking-wide" style="color: var(--text-gold);">${d.country}</div>
                     ${disturbanceLine}
-                    <div class="flex flex-wrap gap-1.5">${chips}</div>
-                    <div class="flex items-center justify-between gap-3 text-[11px] text-gray-400">
-                        <span>点击看商品影响</span>
-                        ${extraCount}
-                    </div>
+                    <div class="flex flex-wrap gap-1 mt-0.5">${chips}</div>
                 `;
 
                 el.onclick = () => {
                     world.pointOfView({ lat: d.lat, lng: d.lng, altitude: 0.62 }, 800);
-                    world.controls().autoRotate = false;
                     renderAndOpenModal(d);
                 };
 
@@ -1363,20 +1241,16 @@
                     .htmlElement(d => currentViewLevel === 'CONTINENT' ? renderContinentMarker(d) : renderCountryMarker(d))
                     (globeMount);
 
-                world.controls().autoRotate = true;
-                world.controls().autoRotateSpeed = 0.95;
-                world.controls().enableZoom = true;
+                // Disable auto-rotate globally as requested
+                world.controls().autoRotate = false;
+                world.controls().enableZoom = false; // Disables mouse wheel zoom to fix page scrolling on desktop
 
                 world.controls().addEventListener('start', () => {
-                    world.controls().autoRotate = false;
                     globeMount.classList.add('is-drag-navigating');
                 });
 
                 world.controls().addEventListener('end', () => {
                     globeMount.classList.remove('is-drag-navigating');
-                    if (currentViewLevel === 'CONTINENT') {
-                        world.controls().autoRotate = true;
-                    }
                 });
 
                 renderMarkersView();
@@ -1406,12 +1280,10 @@
                 if (currentViewLevel === 'CONTINENT') {
                     world.htmlElementsData(continentsData);
                     if (backBtn) backBtn.style.display = 'none';
-                    world.controls().autoRotate = true;
                 } else {
                     const filteredCountries = countriesData.filter(c => c.continent === activeContinentId);
                     world.htmlElementsData(filteredCountries);
                     if (backBtn) backBtn.style.display = 'flex';
-                    world.controls().autoRotate = false;
                 }
             }
 
@@ -1420,7 +1292,6 @@
                 activeContinentId = null;
                 renderMarkersView();
                 if (world) {
-                    world.controls().autoRotate = true;
                     world.pointOfView({ lat: 20, lng: 100, altitude: 2.2 }, 1000);
                 }
             };
@@ -1428,7 +1299,6 @@
             window.goToCountryLevel = function(lat, lng, alt) {
                 currentViewLevel = 'COUNTRY';
                 if (world) {
-                    world.controls().autoRotate = false;
                     world.pointOfView({ lat, lng, altitude: alt }, 800);
                 }
                 setTimeout(() => renderMarkersView(), 380);
@@ -1502,12 +1372,27 @@
                 if (e.target === this) closeModal('impact-modal');
             });
 
+            // Jump Page (News) Functions
+            window.openNewsModal = function() {
+                const page = document.getElementById('news-reports-page');
+                page.classList.remove('page-hidden');
+                page.classList.add('page-visible');
+                document.body.style.overflow = 'hidden'; // 防止背景滚动
+            };
+
+            window.closeNewsModal = function() {
+                const page = document.getElementById('news-reports-page');
+                page.classList.remove('page-visible');
+                page.classList.add('page-hidden');
+                document.body.style.overflow = ''; // 恢复背景滚动
+            };
+
             window.switchTheme = function(tab) {
                 const tabNews = document.getElementById('tab-news');
                 const tabReports = document.getElementById('tab-reports');
                 const contentNews = document.getElementById('content-news');
                 const contentReports = document.getElementById('content-reports');
-                const scrollBox = document.querySelector('#part2-details .overflow-y-auto');
+                const scrollBox = document.querySelector('#news-reports-page .overflow-y-auto');
 
                 const activeClass = 'text-[var(--text-gold)] text-[15px] sm:text-lg font-bold border-b-2 border-[var(--text-gold)] pb-1.5 transition-all';
                 const inactiveClass = 'text-gray-400 hover:text-gray-200 text-[15px] sm:text-lg font-bold border-b-2 border-transparent pb-1.5 transition-all';
